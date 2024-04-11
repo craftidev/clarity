@@ -16,5 +16,5 @@ indent_size = 2
 indent_size = 2
 
 # DART files for flutter
-[.dart]
+[*.dart]
 indent_size = 2
