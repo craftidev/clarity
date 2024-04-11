@@ -1,3 +1,4 @@
+import 'package:clarity/chessboard/chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:clarity/src/rust/api/simple.dart';
 import 'package:clarity/src/rust/frb_generated.dart';
@@ -16,18 +17,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'clarity',
       theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.blackColor,
+        scaffoldBackgroundColor: AppColors.voidColor,
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.blackColor,
+          backgroundColor: AppColors.voidColor,
         ),
       ),
-      home: const MainGui(),
+      home: const Main(),
     );
   }
 }
 
-class MainGui extends StatelessWidget {
-  const MainGui({super.key});
+class Main extends StatelessWidget {
+  const Main({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,8 @@ class MainGui extends StatelessWidget {
           style: const TextStyle(color: Colors.white, fontSize: 18),
         )
       ),
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(5),
-          color: AppColors.backgroundColor,
+      body: const Center(
+        child: ChessBoard(
         ),
       ),
     );
