@@ -1,4 +1,4 @@
-import 'package:clarity/chessboard/chessboard.dart';
+import 'package:clarity/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:clarity/src/rust/api/simple.dart';
 import 'package:clarity/src/rust/frb_generated.dart';
