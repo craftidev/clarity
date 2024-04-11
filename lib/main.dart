@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'clarity',
       theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.voidColor,
+        scaffoldBackgroundColor: AppColors.voidGround,
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.voidColor,
+          backgroundColor: AppColors.voidGround,
         ),
       ),
       home: const Main(),
