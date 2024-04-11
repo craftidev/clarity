@@ -40,8 +40,11 @@ class Main extends StatelessWidget {
           style: const TextStyle(color: Colors.white, fontSize: 18),
         )
       ),
-      body: const Center(
-        child: ChessBoard(
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(5),
+          child: const ResponsiveChessBoard(
+          ),
         ),
       ),
     );
