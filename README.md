@@ -49,3 +49,6 @@
     - custom_dialog.dart
   main.dart
 ```
+
+### Assets
+[Lichess staunton pieces](https://github.com/lichess-org/lila/tree/master/public/piece/staunty)
