@@ -23,3 +23,28 @@
 *   **Flutter to Rust Communication**: The Flutter GUI communicates with the Rust engine to display the game and receive updates. This can be achieved through platform channels if running on the same device, or through websockets/APIs for a more distributed architecture.
     
 *   **User Actions**: User inputs from the Flutter GUI (e.g., moving pieces, selecting analysis options) are sent to the Rust engine, which processes the game state and requests ML-based evaluations as needed.
+
+### Flutter arch
+```tree
+/lib/
+  /themes/
+    - app_colors.dart
+  /chessboard/
+    - chessboard.dart
+  /settings/
+    - settings_controller.dart
+    - settings_view.dart
+  /models/
+    - game_model.dart
+  /services/
+    - game_service.dart
+  /providers/ (if using Provider for state management)
+    - chessboard_provider.dart
+  /views/
+    - home_view.dart
+    - settings_view.dart
+  /widgets/
+    - custom_button.dart
+    - custom_dialog.dart
+  main.dart
+```
