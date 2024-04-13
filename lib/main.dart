@@ -1,6 +1,5 @@
 import 'package:clarity/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
-import 'package:clarity/src/rust/api/simple.dart';
 import 'package:clarity/src/rust/frb_generated.dart';
 import 'package:clarity/themes/app_colors.dart';
 
@@ -35,16 +34,15 @@ class Main extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 20,
-        title: Text(
-          greet(name: "user"),
-          style: const TextStyle(color: Colors.white, fontSize: 18),
+        title: const Text(
+          "nav bar",
+          style: TextStyle(color: Colors.white, fontSize: 18),
         )
       ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(5),
-          child: const ResponsiveChessBoard(
-          ),
+          child: const ResponsiveChessBoard(),
         ),
       ),
     );
