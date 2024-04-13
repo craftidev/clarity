@@ -1,3 +1,5 @@
+Project with flutter_rust_bridge_codegen 2.0.0-dev.31
+
 ### High-Level Architecture Overview
 
 1.  **Rust Chess Engine**
