@@ -1,4 +1,5 @@
 import 'package:clarity/themes/app_colors.dart';
+import 'package:clarity/widgets/pieces.dart';
 import 'package:flutter/material.dart';
 
 class ResponsiveChessBoard extends StatefulWidget {
@@ -34,6 +35,9 @@ class ResponsiveChessBoardState extends State<ResponsiveChessBoard> {
                   color: isDarkSquare ? AppColors.darkSquare : AppColors.lightSquare,
                   width: boardSize / 8,
                   height: boardSize / 8,
+                  child: Center(
+                    child: PieceWidget(index),
+                  ),
                 );
               },
             ),
