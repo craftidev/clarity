@@ -38,14 +38,14 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire_greet_impl(
+fn wire_get_piece_of_square_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "greet",
+            debug_name: "get_piece_of_square",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -59,10 +59,10 @@ fn wire_greet_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_name = <String>::sse_decode(&mut deserializer);
+            let api_index = <usize>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse((move || {
-                Result::<_, ()>::Ok(crate::api::simple::greet(api_name))
+                Result::<_, ()>::Ok(crate::api::main::get_piece_of_square(api_index))
             })())
         },
     )
@@ -91,9 +91,7 @@ fn wire_init_app_impl(
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
             move |context| {
-                transform_result_sse(
-                    (move || Result::<_, ()>::Ok(crate::api::simple::init_app()))(),
-                )
+                transform_result_sse((move || Result::<_, ()>::Ok(crate::api::main::init_app()))())
             }
         },
     )
@@ -101,30 +99,43 @@ fn wire_init_app_impl(
 
 // Section: dart2rust
 
-impl SseDecode for String {
+impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <Vec<u8>>::sse_decode(deserializer);
-        return String::from_utf8(inner).unwrap();
+        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
     }
 }
 
-impl SseDecode for Vec<u8> {
+impl SseDecode for Option<crate::api::main::Piece> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<u8>::sse_decode(deserializer));
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::main::Piece>::sse_decode(deserializer));
+        } else {
+            return None;
         }
-        return ans_;
     }
 }
 
-impl SseDecode for u8 {
+impl SseDecode for crate::api::main::Piece {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u8().unwrap()
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::main::Piece::WhitePawn,
+            1 => crate::api::main::Piece::WhiteKnight,
+            2 => crate::api::main::Piece::WhiteBishop,
+            3 => crate::api::main::Piece::WhiteRook,
+            4 => crate::api::main::Piece::WhiteQueen,
+            5 => crate::api::main::Piece::WhiteKing,
+            6 => crate::api::main::Piece::BlackPawn,
+            7 => crate::api::main::Piece::BlackKnight,
+            8 => crate::api::main::Piece::BlackBishop,
+            9 => crate::api::main::Piece::BlackRook,
+            10 => crate::api::main::Piece::BlackQueen,
+            11 => crate::api::main::Piece::BlackKing,
+            _ => unreachable!("Invalid variant for Piece: {}", inner),
+        };
     }
 }
 
@@ -133,10 +144,10 @@ impl SseDecode for () {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
 }
 
-impl SseDecode for i32 {
+impl SseDecode for usize {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+        deserializer.cursor.read_u64::<NativeEndian>().unwrap() as _
     }
 }
 
@@ -169,34 +180,79 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire_greet_impl(ptr, rust_vec_len, data_len),
+        1 => wire_get_piece_of_square_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
 
 // Section: rust2dart
 
-impl SseEncode for String {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::main::Piece {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::WhitePawn => 0.into_dart(),
+            Self::WhiteKnight => 1.into_dart(),
+            Self::WhiteBishop => 2.into_dart(),
+            Self::WhiteRook => 3.into_dart(),
+            Self::WhiteQueen => 4.into_dart(),
+            Self::WhiteKing => 5.into_dart(),
+            Self::BlackPawn => 6.into_dart(),
+            Self::BlackKnight => 7.into_dart(),
+            Self::BlackBishop => 8.into_dart(),
+            Self::BlackRook => 9.into_dart(),
+            Self::BlackQueen => 10.into_dart(),
+            Self::BlackKing => 11.into_dart(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::main::Piece {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::main::Piece> for crate::api::main::Piece {
+    fn into_into_dart(self) -> crate::api::main::Piece {
+        self
     }
 }
 
-impl SseEncode for Vec<u8> {
+impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <u8>::sse_encode(item, serializer);
+        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+    }
+}
+
+impl SseEncode for Option<crate::api::main::Piece> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::main::Piece>::sse_encode(value, serializer);
         }
     }
 }
 
-impl SseEncode for u8 {
+impl SseEncode for crate::api::main::Piece {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u8(self).unwrap();
+        <i32>::sse_encode(
+            match self {
+                crate::api::main::Piece::WhitePawn => 0,
+                crate::api::main::Piece::WhiteKnight => 1,
+                crate::api::main::Piece::WhiteBishop => 2,
+                crate::api::main::Piece::WhiteRook => 3,
+                crate::api::main::Piece::WhiteQueen => 4,
+                crate::api::main::Piece::WhiteKing => 5,
+                crate::api::main::Piece::BlackPawn => 6,
+                crate::api::main::Piece::BlackKnight => 7,
+                crate::api::main::Piece::BlackBishop => 8,
+                crate::api::main::Piece::BlackRook => 9,
+                crate::api::main::Piece::BlackQueen => 10,
+                crate::api::main::Piece::BlackKing => 11,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
     }
 }
 
@@ -205,10 +261,13 @@ impl SseEncode for () {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
 }
 
-impl SseEncode for i32 {
+impl SseEncode for usize {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+        serializer
+            .cursor
+            .write_u64::<NativeEndian>(self as _)
+            .unwrap();
     }
 }
 
