@@ -1,4 +1,5 @@
 Project with flutter_rust_bridge_codegen 2.0.0-dev.31
+Run `flutter_rust_bridge_codegen generate` to generate bridge files.
 
 ### High-Level Architecture Overview
 
