@@ -3,7 +3,6 @@
 pub fn get_piece_of_square(index: usize) -> Option<Piece> {
     let mut board = Board::new();
     board.update_board(INITIAL_POSITION_FEN);
-    println!("{index}");
     return *board.get_piece_of_square(index);
 }
 
@@ -52,6 +51,7 @@ impl Board {
 
     fn update_board(&mut self, fen: &str) {
         let only_pieces_position = fen.split(' ').next().unwrap().replace('/', "");
+        println!("Board updated");
 
         let mut counter = 0;
         for c in only_pieces_position.chars() {
