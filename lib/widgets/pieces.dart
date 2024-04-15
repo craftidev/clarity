@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:clarity/src/rust/api/main.dart';
 
 class PieceWidget extends StatelessWidget {
-  const PieceWidget(int index, {super.key});
+  final int index;
+  final double height;
+  const PieceWidget({super.key, required this.index, required this.height});
 
   @override
   Widget build(BuildContext context) {
-    Piece? piece = getPieceOfSquare(index: 4);
+    Piece? piece = getPieceOfSquare(index: index);
 
     if (piece == null) {
       return  Container();
@@ -15,7 +17,7 @@ class PieceWidget extends StatelessWidget {
 
     return SvgPicture.asset(
       pieceCorrespondingSvg(piece),
-      height: 50,
+      height: height,
     );
   }
 }
@@ -23,7 +25,7 @@ class PieceWidget extends StatelessWidget {
 String pieceCorrespondingSvg(Piece piece) {
   switch (piece) {
     case Piece.whitePawn:
-      return 'assets/pieces/wPsvg';
+      return 'assets/pieces/wP.svg';
     case Piece.blackPawn:
       return 'assets/pieces/bP.svg';
     case Piece.whiteRook:
