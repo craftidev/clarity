@@ -36,7 +36,10 @@ class ResponsiveChessBoardState extends State<ResponsiveChessBoard> {
                   width: boardSize / 8,
                   height: boardSize / 8,
                   child: Center(
-                    child: PieceWidget(index),
+                    child: PieceWidget(
+                      index: index,
+                      height: boardSize / 8 * 0.97
+                    ),
                   ),
                 );
               },
